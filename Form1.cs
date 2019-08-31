@@ -28,7 +28,7 @@ namespace RageMP_Developer_Helper
                 serverFolderPath.Text = configuration.ServerLocalPath;
             }
             clientFolderPath.Text = configuration.ClientLocalPath;
-            if (!Directory.Exists("server.exe"))
+            if (!File.Exists("server.exe"))
             {
                 MessageBox.Show("The restart button will not work until you place the program in the \"server - files\" folder.", "RageMP Developer Helper", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 restartButton.Enabled = false;
