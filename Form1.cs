@@ -34,6 +34,12 @@ namespace RageMP_Developer_Helper
                 restartButton.Enabled = false;
                 restartButton.Cursor = Cursors.Arrow;
             }
+
+            // AutoMinimize Checkbox Status
+            if (configuration.AutoMinizime == true)
+            {
+                autoMinizimeCheckBox.Checked = true;
+            }
         }
 
         private void PictureBox1_Click(object sender, EventArgs e)
@@ -132,6 +138,10 @@ namespace RageMP_Developer_Helper
             try
             {
                 Process.Start($@"{serverFolderPath.Text}/server.exe");
+                if(configuration.AutoMinizime == true)
+                {
+                    this.WindowState = FormWindowState.Minimized;
+                }
             }
             catch (Exception)
             {
@@ -148,6 +158,10 @@ namespace RageMP_Developer_Helper
                 {
                     proc.Kill();
                 }
+                if (configuration.AutoMinizime == true)
+                {
+                    this.WindowState = FormWindowState.Minimized;
+                }
             }
             catch (Exception ex)
             {
@@ -158,6 +172,10 @@ namespace RageMP_Developer_Helper
         private void RestartButton_Click(object sender, EventArgs e)
         {
             new Form1().Run().GetAwaiter().GetResult();
+            if (configuration.AutoMinizime == true)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
         }
 
         private async Task Run()
@@ -192,9 +210,28 @@ namespace RageMP_Developer_Helper
         {
             configuration.ServerLocalPath = serverFolderPath.Text;
             configuration.ClientLocalPath = clientFolderPath.Text;
+            SaveConfig();
+        }
+
+        private void BunifuFlatButton2_Click(object sender, EventArgs e)
+        {
+            if(configuration.AutoMinizime == false)
+            {
+                configuration.AutoMinizime = true;
+                autoMinizimeCheckBox.Checked = true;
+                SaveConfig();
+                return;
+            }
+            configuration.AutoMinizime = false;
+            autoMinizimeCheckBox.Checked = false;
+            SaveConfig();
+        }
+
+        private void SaveConfig()
+        {
             var configJson = JsonConvert.SerializeObject(configuration);
             File.WriteAllText("config.json", configJson);
             this.Refresh();
-        }
+        } 
     }
 }

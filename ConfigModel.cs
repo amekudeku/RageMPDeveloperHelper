@@ -10,5 +10,6 @@ namespace RageMP_Developer_Helper
     {
         public string ServerLocalPath;
         public string ClientLocalPath;
+        public bool   AutoMinizime;
     }
 }
